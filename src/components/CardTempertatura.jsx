@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
 
-const CardTempertatura = (props) => {
+const CardTempertatura = ({ weatherInfo }) => {
+
     return (
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="https://static.vecteezy.com/system/resources/previews/000/538/537/original/sunny-and-cloudy-with-blue-sky-background-vector-illustration.jpg" />
+            <Card.Img variant="top" src={weatherImages[weatherData.weather[0].main]} />
             <Card.Body className='text-center'>
-                <Card.Title>60°</Card.Title>
-                <Card.Text>soleado</Card.Text>
+                <Card.Title>{ weatherInfo.main.temp - 273}°</Card.Title>
+                <Card.Text>{ weatherInfo.weather[0].main}</Card.Text>
                 <Card.Text className='p-3'>
-                    Temperatura en San Miguel de Tucumán
+                    { weatherInfo.name }
                 </Card.Text>
             </Card.Body>
         </Card>

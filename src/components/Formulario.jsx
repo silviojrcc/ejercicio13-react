@@ -1,15 +1,34 @@
-import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Form, Row, Col, Button, Spinner } from 'react-bootstrap';
 import CardTempertatura from './CardTempertatura';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { getWeatherInfo } from './helpers/queries';
 
 const Formulario = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const [weatherInfo, setWeatherInfo] = useState({});
+    const [showSpinner, setShowSpinner] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const onSubmit = (data) => {
-        console.log(data);
-        reset();
+        const fetchData = async () => {
+            try {
+                setShowSpinner(true);
+                const response = await getWeatherInfo(data.city, data.country);
+                setWeatherInfo(response);
+                setShowSpinner(false);
+                setFormSubmitted(true);
+            } catch (err) {
+                console.log(err);
+                setWeatherInfo([]);
+            }
+        };
+        
+        fetchData();
     }
+
+    const showComponent = formSubmitted && ((showSpinner) ? (<div className="my-5"><Spinner animation="border" variant="primary" /></div>) : <CardTempertatura weatherInfo={weatherInfo}></CardTempertatura>);
 
     return (
         <Container className='mt-5 text-center'>
@@ -41,13 +60,13 @@ const Formulario = () => {
                         <Form.Control placeholder='pais' type='text' {...register("country", {
                             required: true,
                             maxLength: 40,
-                            minLength: 3,
+                            minLength: 2,
                             pattern: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/u
                         })}></Form.Control>
                         <div className='error-container'>
                             {errors.country?.type === "required" && <div className='error-msg'>Debe ingresar un país</div>}
                             {errors.country?.type === "maxLength" && <div className='error-msg'>No debe superar los 40 caracteres</div>}
-                            {errors.country?.type === "minLength" && <div className="error-msg">Debe contener 3 caracteres o mas</div>}
+                            {errors.country?.type === "minLength" && <div className="error-msg">Debe contener 2 caracteres o mas</div>}
                             {errors.country?.type === "pattern" && <div className='error-msg'>Debe ingresar un nombre válido</div>}
                         </div>
                     </Col>
@@ -55,7 +74,7 @@ const Formulario = () => {
                 <Button type='submit'>Consultar clima</Button>
             </Form>
             <div className='d-flex justify-content-center align-items-center m-5'>
-                <CardTempertatura></CardTempertatura>
+                {showComponent}
             </div>
         </Container>
     );
