@@ -1,9 +1,10 @@
 import { Container, Form, Row, Col } from 'react-bootstrap';
+import CardTempertatura from './CardTempertatura';
 
 const Formulario = () => {
     return (
-        <Container className='text-light mt-5 text-center'>
-            <Form>
+        <Container className='mt-5 text-center'>
+            <Form className='text-light '>
                 <Form.Group as={Row}>
                     <Form.Label column sm="10" md="4">
                          Elegir una ciudad
@@ -21,6 +22,9 @@ const Formulario = () => {
                     </Col>
                 </Form.Group>
             </Form>
+            <div className='d-flex justify-content-center align-items-center m-5'>
+                <CardTempertatura></CardTempertatura>
+            </div>
         </Container>
     );
 };
