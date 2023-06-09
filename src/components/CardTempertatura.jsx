@@ -7,9 +7,13 @@ import rainImg from "../assets/clear.jpg";
 
 const CardTempertatura = ({ weatherInfo }) => {
 
-
-    if (weatherInfo.cod !== "200") {
+    if (weatherInfo.cod == "404") {
         return <h2 className='text-light'>No se encontró esa ciudad</h2>
+    }
+
+    
+    if (weatherInfo.cod != "200") {
+        return <h2 className='text-light'>Hubo un problema con su solicitud</h2>
     }
 
     const weatherImages = {
