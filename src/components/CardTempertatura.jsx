@@ -1,20 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
 import clearImg from "../assets/clear.jpg";
 import cloudImg from "../assets/clear.jpg";
 import rainImg from "../assets/clear.jpg";
 
-const CardTempertatura = ({ weatherInfo }) => {
-
-    if (weatherInfo.cod == "404") {
-        return <h2 className='text-light'>No se encontró esa ciudad</h2>
-    }
-
-    
-    if (weatherInfo.cod != "200") {
-        return <h2 className='text-light'>Hubo un problema con su solicitud</h2>
-    }
+export const CardTempertatura = ({ weatherInfo }) => {
 
     const weatherImages = {
         Clear: clearImg,
@@ -37,9 +27,3 @@ const CardTempertatura = ({ weatherInfo }) => {
         </Card>
     );
 };
-
-CardTempertatura.propTypes = {
-    
-};
-
-export default CardTempertatura;

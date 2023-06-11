@@ -1,34 +1,14 @@
-import { Container, Form, Row, Col, Button, Spinner } from 'react-bootstrap';
-import CardTempertatura from './CardTempertatura';
+import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { getWeatherInfo } from './helpers/queries';
 
-const Formulario = () => {
+
+export const Formulario = ({ addInfoForm }) => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    const [weatherInfo, setWeatherInfo] = useState({});
-    const [showSpinner, setShowSpinner] = useState(false);
-    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const onSubmit = (data) => {
-        const fetchData = async () => {
-            try {
-                setShowSpinner(true);
-                const response = await getWeatherInfo(data.city, data.country);
-                setWeatherInfo(response);
-                setShowSpinner(false);
-                setFormSubmitted(true);
-            } catch (err) {
-                console.log(err);
-                setWeatherInfo([]);
-            }
-        };
-        
-        fetchData();
+        addInfoForm(data);
     }
-
-    const showComponent = formSubmitted && ((showSpinner) ? (<div className="my-5"><Spinner animation="border" variant="primary" /></div>) : <CardTempertatura weatherInfo={weatherInfo}></CardTempertatura>);
 
     return (
         <Container className='mt-5 text-center'>
@@ -73,11 +53,6 @@ const Formulario = () => {
                 </Form.Group>
                 <Button type='submit'>Consultar clima</Button>
             </Form>
-            <div className='d-flex justify-content-center align-items-center m-5'>
-                {showComponent}
-            </div>
         </Container>
     );
 };
-
-export default Formulario;
