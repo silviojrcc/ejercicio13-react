@@ -1,18 +1,26 @@
-import { useState, useEffect } from "react";
-import { getWeatherInfo } from "../helpers/queries";
+import { useState, useEffect } from 'react';
+import { getWeatherInfo } from '../helpers/queries';
 
-export const useFetchWeather = ( infoSubmitedForm ) => {
-
+export const useFetchWeather = (infoSubmitedForm) => {
     const [weatherInfo, setWeatherInfo] = useState({});
-    const [isLoading, setIsLoading] = useState( true );
-
-    const getWeather = async() => {
-        const response = await getWeatherInfo(infoSubmitedForm);
-        setWeatherInfo(response);
-        setIsLoading(false);
-    }
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
+        const getWeather = async () => {
+            setIsLoading(true);
+
+            const response = await getWeatherInfo(infoSubmitedForm);
+            if (!response?.ok) {
+                setError(response?.message);
+            } else {
+                setWeatherInfo(response?.weatherInfo);
+                setError(null);
+            }
+
+            setIsLoading(false);
+        };
+
         if (Object.keys(infoSubmitedForm).length !== 0) {
             getWeather();
         }
@@ -20,8 +28,7 @@ export const useFetchWeather = ( infoSubmitedForm ) => {
 
     return {
         weatherInfo,
-        isLoading
-    }
-  
-
-}
+        isLoading,
+        error,
+    };
+};
