@@ -4,7 +4,7 @@ import clearImg from "../assets/clear.jpg";
 import cloudImg from "../assets/clear.jpg";
 import rainImg from "../assets/clear.jpg";
 
-export const CardTempertatura = ({ weatherInfo }) => {
+export const CardTempertatura = ({ temperature, weatherStatus, city, statusCode }) => {
 
     const weatherImages = {
         Clear: clearImg,
@@ -12,16 +12,16 @@ export const CardTempertatura = ({ weatherInfo }) => {
         Rain: rainImg,
     };
 
-    const tempInCelcius = (weatherInfo.main.temp - 273).toFixed(2);
+    const tempInCelcius = (temperature - 273).toFixed(2);
 
     return (
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={weatherImages[weatherInfo.weather[0].main]} />
+            <Card.Img variant="top" src={ weatherImages[weatherStatus] } />
             <Card.Body className='text-center'>
                 <Card.Title>{ tempInCelcius }°</Card.Title>
-                <Card.Text>{ weatherInfo.weather[0].main}</Card.Text>
+                <Card.Text>{ weatherStatus }</Card.Text>
                 <Card.Text className='p-3'>
-                    { weatherInfo.name }
+                    { city }
                 </Card.Text>
             </Card.Body>
         </Card>

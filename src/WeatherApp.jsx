@@ -15,7 +15,7 @@ function WeatherApp() {
     setInfoSubmitedForm(formInput);
   }
 
-  const showComponent = (isLoading) ? (<div className="my-5"><Spinner animation="border" variant="primary" /></div>) : <CardTempertatura weatherInfo={ weatherInfo }/>;
+  const showComponent = (isLoading) ? (<div className="my-5"><Spinner animation="border" variant="primary" /></div>) : <CardTempertatura { ...weatherInfo }/>;
   // const showComponent =  !isLoading && <CardTempertatura weatherInfo={ weatherInfo }/>;
 
   return (

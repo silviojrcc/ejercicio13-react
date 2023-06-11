@@ -5,8 +5,17 @@ export const getWeatherInfo = async( infoSubmitedForm ) => {
     try{
         const response = await fetch(url);
         const data = await response.json();
-        return data;
+
+        const weatherInfo = {
+            temperature: data.main.temp,
+            weatherStatus: data.weather[0].main,
+            city: data.name,
+            statusCode: data.cod
+        }
+
+        return weatherInfo;
     } catch(err) {
+        console.log(err);
         return [];
     }
 }
